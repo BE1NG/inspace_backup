@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <form id="commentForm" name="commentForm" method="post" action='/inspace/comment/'>
+        {% csrf_token %}
+        <input type="hidden" name="id" value='{{ user_posting.id }}'>
+        <div>
+            <div>
+                <span><strong>Posting</strong></span> <span id="cCnt"></span>
+            </div>
+            <div class="block">
+                <p>게시자 : {{ user_posting.email.email }} {{ user_posting.id }}</p>
+                <p>위치 : {{ user_posting.location }}</p>
+                <img src="/static/profile_image/{{ user_posting.picture }}" width="540px" height="620px">
+                <p></p>
+                <p class="con">{{ user_posting.content }}</p>
+                <a href="/inspace/signout/"></a>
+            </div>
+            <div>
+                <table class="table">
+                    <tr>
+                        <td>
+                            <textarea style="width: 100%" rows="3" cols="30" id="comment" name="comment"
+                                placeholder="댓글 입력"></textarea>
+                            <br>
+                            <div>
+                                <button type="submit" class="btn btn-default">등록</button>
+                            </div>
+                    <tr>
+                        <th>Comments{{ user_posting.id }}
+                            <hr>
+                        </th>
+                    </tr>
+                    <tr>
+                        <tbody>
+                            {% for User_Comment in user_posting.user_comment_set.all %}
+                            <tr>
+                                <td>
+                                    <span>{{ User_Comment.email }}</span>
+                                    <span>{{ User_Comment.comment }}</span>
+                                    <span style="float: right">
+                                        <input type="button" class="btn btn-default" value="수정" onclick='modify(this)' c-id="{{ User_Comment.id }}">
+                                        <!-- <input type="button" class="btn btn-default" value="삭제" onclick='modify(this)' d-id="{{ User_Comment.id }}"> -->
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </tr>
+                    </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <form id="commentListForm" name="commentListForm" method="post">
+        <div id="commentList">
+        </div>
+    </form>
+</div>
+
+<script>
+    function modify(obj) {
+        var e = $(obj).parent().prev();
+        if(!e.children().is('input')) {
+            var comment = e.text();
+            var html = `<input type='text' value='${comment}'>`;
+            e.html(html);
+        } else {
+            var comment = e.find('input').val();
+            var id = $(obj).attr('c-id');
+            // ajax 댓글 수정 요청
+            $.ajax({
+                url: `/inspace/comment/${id}/`,
+                data: {comment: comment},
+                success: function(res) {
+                    alert(res.msg);
+                    e.text(comment);
+                }
+            });
+        }
+    }
+</script>
+
+
+{% endblock %}

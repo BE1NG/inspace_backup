@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .jumbotron{
+    background-color:#fff;
+    }
+</style>
+
+
+<div class="jumbotron">
+    <div class="container text-center">
+        <form method="post" action="/inspace/write/" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+            <div class="form-group">
+                <label for="content">새 게시물</label>
+                <textarea class="form-control" rows="5" name="content" id="content" placeholder="글자 입력"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="location">위치</label>
+                <textarea class="form-control" rows="1" name="location" id="location"></textarea>
+            </div>
+            <hr></hr>
+            <div class="form-group">
+                <label for="picture">사진</label>
+                <p></p>
+                <input type="file" name="picture" id="picture">
+            </div>
+
+            <hr></hr>
+
+            <button type="submit" id="complete" class="btn btn-primary btn-block">
+                게시물 올리기
+            </button>
+
+        </form>
+    </div>
+</div>
+
+
+<script>
+    navigator.geolocation.getCurrentPosition(  // 현재 위치
+        function (position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+
+            // ajax 비동기 통신
+            // /coord_to_address
+            $.ajax({
+                url: '/coord_to_address',
+                data: {'lat':lat,'lng':lng},
+                success: function(res) {
+                    // alert(res.documents[0].address_name);
+                    
+                    document.getElementById("location").innerHTML = res.documents[0].address_name;
+
+                }
+            })
+        });
+</script>
+
+
+{% endblock %}

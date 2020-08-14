@@ -1,0 +1,6 @@
+.pageTitle {position: fixed; left: 0; top: 0; width: 70%; height: 45px; line-height: 52px; color: #000000; text-align: center;}
+article {padding: 52px 3% 0;}
+article .block {padding: 20px; min-height: 500px; width:520px;}
+article .block p {line-height: 22px; color: #000; font-size: 16px; font-weight: 600;}
+article .block h2 {line-height: 22px; color: #000; font-size: 16px; font-weight: 600;}
+article .block h4 {line-height: 22px; color: #000; font-size: 16px; font-weight: 600;}

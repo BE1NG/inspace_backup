@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+<head>
+    <!-- 구글 폰트 링크 -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+</head>
+
+<link href="{% static 'scroll.css' %}" rel="stylesheet">
+<style>
+    svg.bd-placeholder-img {
+        width: 140px;
+  height: 140px;
+  background-image: url('https://secure.gravatar.com/avatar/2e4f63e0ef15ad019600822cc42ad278?s=140&d=mm&r=g');
+    }
+
+    article .block p {line-height: 22px; color: #000; font-size: 16px; font-weight: 600;}
+article .block h2 {line-height: 22px; color: #000; font-size: 16px; font-weight: 600;}
+article .block h4 {line-height: 22px; color: #000; font-size: 16px; font-weight: 600;}
+
+/* 게시글 내용 */
+p.con{
+    text-align: left;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+p.comments{
+    text-align: right;
+}
+
+</style>
+
+<p></p>
+<center>
+  <!-- HTML -->
+<article>
+    {% for posting in user_posting %}
+    <div class="block">
+        <p>게시자 : {{ posting.email.email }}</p>
+        <p>위치 : {{ posting.location }}</p>
+        <a href="/inspace/posting/{{ posting.id }}/">
+        <img src="/static/profile_image/{{ posting.picture }}" width="540px" height="620px">
+        </a>
+        <p class="con">{{ posting.content }}</p>
+        <p class="comments">
+            <a href="/inspace/posting/{{ posting.id }}/">
+            댓글
+            </a>
+        </p>
+    </div>
+    <p></p>
+    <hr>
+    {% endfor %}
+  
+    <!--반복 -->
+</article>
+
+</center>
+<script>
+/*
+//Javascript
+var count = 0;
+//스크롤 바닥 감지
+window.onscroll = function(e) {
+    //추가되는 임시 콘텐츠
+    //window height + window scrollY 값이 document height보다 클 경우,
+    if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    	//실행할 로직 (콘텐츠 추가)
+        count++;
+        var addContent = '<div class="block"><p>'+ count +'번째로 추가된 콘텐츠</p></div>';
+        //article에 추가되는 콘텐츠를 append
+        $('article').append(addContent);
+    }
+};*/
+</script>
+
+
+
+
+
+{% endblock %}
